@@ -1,0 +1,30 @@
+{
+  "name": "coopbe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build": "tsc",
+    "generate": "npx drizzle-kit generate",
+    "push": "drizzle-kit push",
+    "migrate":"npx drizzle-kit migrate",
+    "studio": "npx drizzle-kit studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "drizzle-kit": "^0.21.4",
+    "drizzle-orm": "^0.30.10",
+    "express": "^4.19.2",
+    "mysql2": "^3.9.7",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12"
+  }
+}
