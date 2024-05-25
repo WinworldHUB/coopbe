@@ -7,7 +7,8 @@
     "build": "tsc",
     "generate": "npx drizzle-kit generate",
     "push": "drizzle-kit push",
-    "migrate":"npx drizzle-kit migrate"
+    "migrate":"npx drizzle-kit migrate",
+    "studio": "npx drizzle-kit studio"
   },
   "keywords": [],
   "author": "",
