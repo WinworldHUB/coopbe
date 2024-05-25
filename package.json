@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.ts",
+    "build": "tsc",
+    "generate": "npx drizzle-kit generate",
+    "push": "drizzle-kit push",
+    "migrate":"npx drizzle-kit migrate"
   },
   "keywords": [],
   "author": "",

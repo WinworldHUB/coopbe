@@ -8,7 +8,7 @@ export default defineConfig({
     host: "localhost",
     user: "root", 
     password: "12345678",
-    database: "test_db",
+    database: "coop_db",
   },
   migrations: {
     table: "migrations",

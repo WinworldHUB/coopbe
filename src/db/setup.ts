@@ -8,7 +8,7 @@ const initializeConnection = async (): Promise<Connection> => {
     host: "localhost",
     user: "root", 
     password: "12345678",
-    database: "test_db",
+    database: "coop_db",
   });
 
   return connection;
