@@ -1,6 +1,10 @@
 import { mysqlTable, serial, varchar, int } from "drizzle-orm/mysql-core";
-import { societies } from "./society";
 
+export const societies = mysqlTable("societies", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 256 }).notNull(),
+  
+});
 
 // Define the user table
 export const users = mysqlTable("users", {
@@ -12,9 +16,10 @@ export const users = mysqlTable("users", {
   role: varchar("role", { length: 256 }).notNull(),
 });
 
-// Define the join table for the many-to-many relationship
-export const userSocieties = mysqlTable("user_societies", {
+
+// define society and user many to many relationship
+export const societyUsers = mysqlTable("society_users", {
   id: serial("id").primaryKey(),
-  userId: int("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
-  societyId: int("society_id").notNull().references(() => societies.id, { onDelete: 'cascade' }),
+  society_id: int("society_id").notNull().references(()=>societies.id),
+  user_id: int("user_id").notNull().references(()=>users.id),
 });

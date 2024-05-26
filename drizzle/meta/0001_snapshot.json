@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "5a32421c-5623-41a6-ae18-a5075d28b2f3",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "6979db9c-ca70-413f-9505-278e94017b12",
+  "prevId": "5a32421c-5623-41a6-ae18-a5075d28b2f3",
   "tables": {
     "societies": {
       "name": "societies",
@@ -27,6 +27,70 @@
       "compositePrimaryKeys": {
         "societies_id": {
           "name": "societies_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "society_users": {
+      "name": "society_users",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "society_id": {
+          "name": "society_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "society_users_society_id_societies_id_fk": {
+          "name": "society_users_society_id_societies_id_fk",
+          "tableFrom": "society_users",
+          "tableTo": "societies",
+          "columnsFrom": [
+            "society_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "society_users_user_id_users_id_fk": {
+          "name": "society_users_user_id_users_id_fk",
+          "tableFrom": "society_users",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "society_users_id": {
+          "name": "society_users_id",
           "columns": [
             "id"
           ]
