@@ -8,7 +8,8 @@
     "generate": "npx drizzle-kit generate --config=drizzle.config.ts",
     "push": "drizzle-kit push",
     "migrate": "npx drizzle-kit migrate",
-    "studio": "npx drizzle-kit studio"
+    "studio": "npx drizzle-kit studio",
+    "seed": "npx drizzle-kit seed"
   },
   "keywords": [],
   "author": "",
