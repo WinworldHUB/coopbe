@@ -4,7 +4,8 @@ import { pgTable, varchar, integer, bigint } from "drizzle-orm/pg-core";
 export const societies = pgTable("societies", {
   id: bigint('id', { mode: 'number' }).primaryKey().unique(),
   name: varchar("name", { length: 100 }).notNull(),
-  
+  address: text("address").notNull(),
+  postcode: varchar("postcode", { length: 10 }).notNull(),
 });
 
 
