@@ -2,13 +2,10 @@ import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
   schema: './src/db/schema/**/*.{js,ts}',
-  out: './drizzle',
-  dialect: 'mysql', // 'postgresql' | 'mysql' | 'sqlite'
+  out: './src/db/migrations',
+  dialect: 'postgresql', // 'postgresql' | 'mysql' | 'sqlite'
   dbCredentials: {
-    host: "localhost",
-    user: "root", 
-    password: "12345678",
-    database: "coop_db",
+   url: 'postgres://postgres:0000@localhost:5433/coop_db'
   },
   migrations: {
     table: "migrations",
