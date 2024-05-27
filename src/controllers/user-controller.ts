@@ -17,11 +17,10 @@ export const signUp: RequestHandler = async (req, res) => {
       .json({ success: false, data: null, message: "All fields are required" });
   }
 
-
   try {
     const stytchresponse = await stytchClient.magicLinks.email.loginOrCreate({ email });
 
-    if (stytchresponse.user_created && stytchresponse.status_code === 200) {
+    if (stytchresponse.user_created) {
       await db
       ?.insert(users)
       .values({
