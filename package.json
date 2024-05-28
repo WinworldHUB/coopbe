@@ -9,7 +9,7 @@
     "push": "drizzle-kit push",
     "migrate": "npx drizzle-kit migrate",
     "studio": "npx drizzle-kit studio",
-    "seed": "npx drizzle-kit seed"
+    "seed": "ts-node src/db/seed.ts"
   },
   "keywords": [],
   "author": "",
