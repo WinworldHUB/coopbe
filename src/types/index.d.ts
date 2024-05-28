@@ -3,7 +3,7 @@ export type User = {
     email: string;
     phone: string;
     address: string;
-    society: Society;
+    societyId: number;
     role: number;
 }
 

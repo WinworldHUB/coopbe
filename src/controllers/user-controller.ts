@@ -9,9 +9,9 @@ export const getAllUsers: RequestHandler = async (req, res) => {
 };
 
 export const signUp: RequestHandler = async (req, res) => {
-  const { name, email, phone, role, address }: User = req.body;
+  const { name, email, phone, role, address , societyId }: User = req.body;
 
-  if (!name || !email || !phone || !role || !address) {
+  if (!name || !email || !phone || !role || !address || societyId) {
     return res
       .status(400)
       .json({ success: false, data: null, message: "All fields are required" });
@@ -32,7 +32,6 @@ export const signUp: RequestHandler = async (req, res) => {
         phone: phone,
         address: address,
         role: role,
-        
       });
 
     return res.status(201).json({
