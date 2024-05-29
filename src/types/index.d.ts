@@ -5,10 +5,16 @@ export type User = {
     address: string;
     societyId: number;
     role: number;
+    password: string;
 }
 
 export type Society = {
     name: string;
     address: string;
     postcode: string;
+}
+
+export type LoginRequest = {
+    email: string;
+    password: string;
 }

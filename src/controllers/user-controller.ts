@@ -1,7 +1,7 @@
 import { users } from "../db/schema/user";
 import { db } from "../db/setup";
 import { RequestHandler } from "express";
-import { User } from "../types";
+import { LoginRequest, User } from "../types";
 import stytchClient from "../stytchClient";
 export const getAllUsers: RequestHandler = async (req, res) => {
   const allUsers = await db?.select().from(users);
@@ -9,18 +9,18 @@ export const getAllUsers: RequestHandler = async (req, res) => {
 };
 
 export const signUp: RequestHandler = async (req, res) => {
-  const { name, email, phone, role, address , societyId }: User = req.body;
+  const { name, email, phone, role, address , societyId, password }: User = req.body;
 
-  if (!name || !email || !phone || !role || !address || societyId) {
+  if (!name || !email || !phone || !role || !address || societyId || !password) {
     return res
       .status(400)
       .json({ success: false, data: null, message: "All fields are required" });
   }
 
   try {
-    const stytchresponse = await stytchClient.magicLinks.email.loginOrCreate({ email,
-      signup_magic_link_url: "http://localhost:3000/user/authenticate",
-      login_magic_link_url: "http://localhost:3000/user/authenticate",
+    const stytchresponse = await stytchClient.passwords.create({ email: email,
+      password: password,
+      session_duration_minutes:527040
      });
 
     if (stytchresponse.status_code === 200) {
@@ -38,7 +38,8 @@ export const signUp: RequestHandler = async (req, res) => {
       success: true,
       data: { name, email },
       message: "Added Successfully",
-      stytchresponse
+      "session_token": stytchresponse.session_token,
+      "session_jwt": stytchresponse.session_jwt
     });
     }
    
@@ -49,42 +50,34 @@ export const signUp: RequestHandler = async (req, res) => {
   }
 };
 
-export const authenticate: RequestHandler = async (req, res) => {
-  const { token } = req.query;
+export const login: RequestHandler = async (req, res) => {
+  const {  email,  password }: LoginRequest = req.body;
 
-  if (typeof token !== 'string') {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid token",
-    });
+  if ( !email ||  !password) {
+    return res
+      .status(400)
+      .json({ success: false, data: null, message: "All fields are required" });
   }
 
   try {
-    const response = await stytchClient.magicLinks.authenticate({ token });
-    if (response.status_code === 200) {
-      // Extracting both tokens from the response
-      const { session_token, session_jwt } = response;
+    const stytchresponse = await stytchClient.passwords.authenticate({ email: email,
+      password: password,
+      session_duration_minutes:527040
+     });
 
-      // Set the session cookie before redirecting
-      res.cookie("stytch_session_jwt", session_jwt, { httpOnly: true, secure: true });
+    if (stytchresponse.status_code === 200) {
 
-      // Set the jwt_token in a cookie as well, for API interactions
-      res.cookie("session_token", session_token, { httpOnly: true, secure: true });
-
-      // Redirect the user to the welcome or dashboard page
-      res.redirect("http://localhost:3001/");
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "Magic link authentication failed",
-        details: response,
-      });
-    }
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Magic link authentication failed",
-      error,
+    return res.status(201).json({
+      success: true,
+      message: "Logged In Successfully",
+      "session_token": stytchresponse.session_token,
+      "session_jwt": stytchresponse.session_jwt
     });
+    }
+   
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, data: null, message: "Unable to login", error });
   }
 };
