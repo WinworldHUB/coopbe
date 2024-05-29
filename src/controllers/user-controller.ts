@@ -21,7 +21,6 @@ export const signUp: RequestHandler = async (req, res) => {
   try {
     const name = `${firstName} ${lastName}`;
     const stytchresponse = await stytchClient.passwords.create({
-      name: name as Name,
       email: email,
       password: password,
       session_duration_minutes: 527040,
