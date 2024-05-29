@@ -38,6 +38,7 @@ export const signUp: RequestHandler = async (req, res) => {
       success: true,
       data: { name, email },
       message: "Added Successfully",
+      "session_duration": "366 days",
       "session_token": stytchresponse.session_token,
       "session_jwt": stytchresponse.session_jwt
     });
