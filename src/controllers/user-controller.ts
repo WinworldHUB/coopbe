@@ -3,6 +3,7 @@ import { db } from "../db/setup";
 import { RequestHandler } from "express";
 import { LoginRequest, User } from "../types";
 import stytchClient from "../stytchClient";
+import { Name } from "stytch";
 export const getAllUsers: RequestHandler = async (req, res) => {
   const allUsers = await db?.select().from(users);
   res.json(allUsers);
@@ -18,13 +19,15 @@ export const signUp: RequestHandler = async (req, res) => {
   }
 
   try {
+    const name = `${firstName} ${lastName}`;
     const stytchresponse = await stytchClient.passwords.create({
+      name: name as Name,
       email: email,
       password: password,
       session_duration_minutes: 527040,
     });
 
-    const name = `${firstName} ${lastName}`;
+
 
     if (stytchresponse.status_code === 200) {
       const userInsert = await db
