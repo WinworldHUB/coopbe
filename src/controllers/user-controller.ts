@@ -20,7 +20,7 @@ export const signUp: RequestHandler = async (req, res) => {
   try {
     const stytchresponse = await stytchClient.magicLinks.email.loginOrCreate({ email,
       signup_magic_link_url: "http://localhost:3000/user/authenticate",
-      login_magic_link_url: "http://localhost:3000/user/authenticate"
+      login_magic_link_url: "http://localhost:3000/user/authenticate",
      });
 
     if (stytchresponse.status_code === 200) {
@@ -49,7 +49,6 @@ export const signUp: RequestHandler = async (req, res) => {
   }
 };
 
-
 export const authenticate: RequestHandler = async (req, res) => {
   const { token } = req.query;
 
@@ -63,7 +62,16 @@ export const authenticate: RequestHandler = async (req, res) => {
   try {
     const response = await stytchClient.magicLinks.authenticate({ token });
     if (response.status_code === 200) {
-      // Redirect the user to a welcome or dashboard page
+      // Extracting both tokens from the response
+      const { session_token, session_jwt } = response;
+
+      // Set the session cookie before redirecting
+      res.cookie("stytch_session_jwt", session_jwt, { httpOnly: true, secure: true });
+
+      // Set the jwt_token in a cookie as well, for API interactions
+      res.cookie("session_token", session_token, { httpOnly: true, secure: true });
+
+      // Redirect the user to the welcome or dashboard page
       res.redirect("http://localhost:3001/");
     } else {
       res.status(400).json({
