@@ -27,7 +27,7 @@ export const signUp: RequestHandler = async (req, res) => {
     const name = `${firstName} ${lastName}`;
 
     if (stytchresponse.status_code === 200) {
-      await db
+      const userInsert = await db
         ?.insert(users)
         .values({
           name: name,
@@ -35,7 +35,16 @@ export const signUp: RequestHandler = async (req, res) => {
           phone: phone,
           address: address,
           role: role,
-        })
+        }).returning({ insertedId: users.id });
+
+        const  userId = userInsert[0].insertedId;
+        console.log(userId);
+
+        await db?.insert(societyUsers).values({
+          user_id: userId,
+          society_id: societyId,
+        });
+        
 
       return res.status(201).json({
         success: true,
