@@ -1,5 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import userRouter from "./routes/user-routes";
+import roleRouter from "./routes/role-routes";
+import societyRouter from "./routes/society-routes";
 
 const app = express();
 const PORT = 3000;
@@ -31,7 +33,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/user", userRouter);
-
+app.use("/role", roleRouter);
+app.use("/society", societyRouter);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

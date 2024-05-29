@@ -1,30 +1,10 @@
-import { createConnection as mysqlCreateConnection, Connection } from 'mysql2/promise';
-import { drizzle, MySql2Database } from 'drizzle-orm/mysql2';
-import { migrate } from 'drizzle-orm/mysql2/migrator';
-
-
-let db: MySql2Database | null = null;
-
-const initializeConnection = async (): Promise<Connection> => {
-  const connection = await mysqlCreateConnection({
-    host: "localhost",
-    user: "root", 
-    password: "12345678",
-    database: "coop_db",
-  });
-
-  return connection;
-};
-
-const initDb = async (): Promise<void> => {
-  const connection = await initializeConnection();
-  db = drizzle(connection);
-  await migrate(db, { migrationsFolder: "drizzle" });
-};
-
-// Immediately invoke initDb to initialize the connection
-initDb().catch((error) => {
-  console.error('Failed to initialize the database:', error);
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
+const databaseUrl =
+  process.env.DATABASE_URL ||
+  "postgresql://admin:7F808jv0WO658c5LnQxzTQ9V@loosely-living-redbird.a1.pgedge.io/coop_db?sslmode=require"
+export const pool = new Pool({
+  connectionString: databaseUrl,
 });
 
-export { db };
+export const db = drizzle(pool);

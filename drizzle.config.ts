@@ -1,17 +1,15 @@
-import { defineConfig } from 'drizzle-kit';
-
+import { defineConfig } from "drizzle-kit";
+const databaseUrl =
+  "postgresql://admin:7F808jv0WO658c5LnQxzTQ9V@loosely-living-redbird.a1.pgedge.io/coop_db?sslmode=require"
 export default defineConfig({
-  schema: './src/db/schema/**/*.{js,ts}',
-  out: './drizzle',
-  dialect: 'mysql', // 'postgresql' | 'mysql' | 'sqlite'
+  schema: "./src/db/schema/**/*.{js,ts}",
+  out: "./src/db/migrations",
+  dialect: "postgresql", // 'postgresql' | 'mysql' | 'sqlite'
   dbCredentials: {
-    host: "localhost",
-    user: "root", 
-    password: "12345678",
-    database: "coop_db",
+    url: databaseUrl,
   },
   migrations: {
     table: "migrations",
-    schema: "public"
-}
+    schema: "public",
+  },
 });
